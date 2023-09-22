@@ -1,0 +1,40 @@
+# docker-compose.yml
+version: "3.8"
+services:
+  webserver:
+    container_name: api
+    restart: always
+    build: 
+      context: .
+      dockerfile: ./webserver/Dockerfile
+    depends_on:
+      - database 
+    environment:
+      NODE_ENV: development
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    command: npm run dev
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - bsocial
+
+  database:
+    container_name: postgres
+    image: postgres
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - data:/data/db
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    networks:
+      - bsocial
+
+networks:
+  bsocial:
+    driver: bridge
+
+volumes:
+  data: {}
