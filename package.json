@@ -18,8 +18,11 @@
   "author": "HolyCyberCow <andrej.karakas@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@types/cookie-parser": "^1.4.4",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.3.1",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "http-status-codes": "^2.3.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.17",

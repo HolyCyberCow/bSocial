@@ -90,7 +90,7 @@ early stages of the development.
 ### Features
 
 - `Web server`
-  - [ ] **SETUP** PostgreSQL inside a docker
+  - [x] **SETUP** PostgreSQL inside a docker
   - [ ] **SETUP** Kafka inside a docker
     - [ ] Create Kafka topics
   - [ ] **SETUP** Database connection

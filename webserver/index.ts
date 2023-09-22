@@ -1,12 +1,8 @@
-import express, { Express, Request, Response } from "express";
 import { config } from "dotenv";
 config({ path: "./.env" });
-const app: Express = express();
-const port = process.env.APP_PORT || 8080;
+import app from "./server";
 
-app.get("/ping", (req: Request, res: Response) => {
-  res.send("pong");
-});
+const port = Number(process.env.PORT || 8080);
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

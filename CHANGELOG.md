@@ -8,15 +8,15 @@ and this project adheres to
 
 ## [Unreleased]
 
-## [0.0.1] - 2023-09-22
+### 2023-09-22
 
-## Added
+#### Added
 
 - package-lock.json
 - docker-compose.yml for building the webserver with its postgres dependency
 - .dockerignore file
 
-## Changed
+#### Changed
 
 - README; added app goals, features and requirements
 - env variables
