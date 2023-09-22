@@ -15,12 +15,17 @@ and this project adheres to
 - package-lock.json
 - docker-compose.yml for building the webserver with its postgres dependency
 - .dockerignore file
+- initial web server structure, with db entities, db connections, controllers,
+  services, validation schemas, utilities, config, expanded env vars where
+  needed
+- added redis for session management
 
 #### Changed
 
 - README; added app goals, features and requirements
 - env variables
 - directory structure
+- docker-compose: added redis
 
 ## [0.0.1] - 2023-09-21
 

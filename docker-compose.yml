@@ -6,7 +6,7 @@ services:
     restart: always
     build: 
       context: .
-      dockerfile: ./webserver/Dockerfile
+      dockerfile: ./src/Dockerfile
     depends_on:
       - database 
     environment:
@@ -23,14 +23,22 @@ services:
     container_name: postgres
     image: postgres
     ports:
-      - ${DB_PORT}:${DB_PORT}
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
-      - data:/data/db
+      - postgresDB:/data/postgres
     environment:
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     networks:
       - bsocial
+
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    volumes:
+      - redisDB:/data/redis
 
 networks:
   bsocial:
