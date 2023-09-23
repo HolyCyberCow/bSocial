@@ -9,8 +9,7 @@ import {
 } from "../services/user.service";
 import AppError from "../utils/appError";
 import { User } from "../entities/user.entity";
-import redisClient from "../utils/redis";
-import { signJwt, verifyJwt } from "webserver/utils/jwt";
+import { signJwt, verifyJwt } from "../utils/jwt";
 
 const cookieOptions: CookieOptions = {
   httpOnly: true,
@@ -36,7 +35,7 @@ const refreshTokenCookieOptions: CookieOptions = {
 };
 
 export const registerUserHandler = async (
-  req: Request<{}, {}, CreateUserInput>,
+  req: Request<Record<string, never>, Record<string, never>, CreateUserInput>,
   res: Response,
   next: NextFunction,
 ) => {
@@ -55,6 +54,7 @@ export const registerUserHandler = async (
       status: "success",
     });
   } catch (err: any) {
+    console.log(err);
     if ((err.code = "23505")) {
       return res.status(409).json({
         status: "error",
@@ -66,7 +66,7 @@ export const registerUserHandler = async (
 };
 
 export const loginUserHandler = async (
-  req: Request<{}, {}, LoginUserInput>,
+  req: Request<Record<string, never>, Record<string, never>, LoginUserInput>,
   res: Response,
   next: NextFunction,
 ) => {
@@ -116,26 +116,20 @@ export const refreshAccessTokenHandler = async (
 
     const decoded = verifyJwt<{ sub: string }>(
       refresh_token,
-      "refreshTokenPublicKey",
+      "refreshToken",
     );
 
     if (!decoded) {
       return next(new AppError(403, message));
     }
 
-    const session = await redisClient.get(decoded.sub);
-
-    if (!session) {
-      return next(new AppError(403, message));
-    }
-
-    const user = await findUserById(JSON.parse(session).id);
+    const user = await findUserById(decoded.sub);
 
     if (!user) {
       return next(new AppError(403, message));
     }
 
-    const access_token = signJwt({ sub: user.id }, "accessTokenPrivateKey", {
+    const access_token = signJwt({ sub: user.id }, "accessToken", {
       expiresIn: `${config.accessTokenExpiresInMinutes}m`,
     });
 
@@ -166,9 +160,6 @@ export const logoutHandler = async (
   next: NextFunction,
 ) => {
   try {
-    const user = res.locals.user;
-
-    await redisClient.del(user.id);
     logout(res);
 
     res.status(200).json({

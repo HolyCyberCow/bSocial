@@ -1,0 +1,5 @@
+# !/bin/bash
+curl -X POST http://localhost:8080/api/posts \
+  --cookie "access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwOWI3YjE5Ny1iMzlhLTRkZTItOGJmNy1mNzg5YjE4MDljYjAiLCJpYXQiOjE2OTU0OTE2NjgsImV4cCI6MTY5NTQ5MjU2OH0.UelilSN-UZA5gJamBbljfXUcVcFTuzhfRmIvmC003742uqkMMqhEvrn5MOYaLWr5JMu9V8wItxjbhgRCeCV0d3Zn97_TvY4O_jPAAxEfZldfNg_aq6WyI4gcWIX1nIL48Zkbwo3Hhj0WhQN0ADzGljjXhq6shUlc7EzeCHnbyayVGbkC8LUrriUUx_5eYtfSbL0IwNtd5u9WvBGSzZ3DsSxfyG4FzR8Zr29YbEIw3d93taZXg4yqNEuSDm6kwm9KE9-adP7cDsAZLfYKg2APR8lwSFba6C4wPfWfiK-PgHfSo7Pdd20yi83lYelAIsZXo8VMigpeYKAqAnBW1Upwbw" \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Test","content":"This is a test post content"}'

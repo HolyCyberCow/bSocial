@@ -12,6 +12,22 @@ and this project adheres to
 
 #### Added
 
+- middleware, server routes, db migrations, some test files
+
+#### Changed
+
+- project structure
+- server creation and loading
+- config & typeorm config
+
+#### Removed
+
+- Redis and session storage
+
+### 2023-09-22
+
+#### Added
+
 - package-lock.json
 - docker-compose.yml for building the webserver with its postgres dependency
 - .dockerignore file

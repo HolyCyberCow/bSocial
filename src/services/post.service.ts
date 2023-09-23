@@ -23,7 +23,7 @@ export const findPosts = async (req: Request) => {
   }
 
   if (req.query.sort) {
-    const sortQuery = req.query.sort === "-price" ? "DESC" : "ASC";
+    const sortQuery = req.query.sort === "DESC" ? "DESC" : "ASC";
     builder.orderBy("post.title", sortQuery);
   }
 

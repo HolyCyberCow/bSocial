@@ -32,17 +32,9 @@ services:
     networks:
       - bsocial
 
-  redis:
-    image: redis
-    container_name: redis
-    ports:
-      - ${REDIS_PORT}:${REDIS_PORT}
-    volumes:
-      - redisDB:/data/redis
-
 networks:
   bsocial:
     driver: bridge
 
 volumes:
-  data: {}
+  postgresDB: {}

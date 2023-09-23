@@ -1,8 +1,7 @@
 import { User } from "../entities/user.entity";
 import { PostgresDataSource } from "../utils/db";
-import redisClient from "../utils/redis";
 import config from "../config/config";
-import { signJwt } from "webserver/utils/jwt";
+import { signJwt } from "../utils/jwt";
 
 const userRepository = PostgresDataSource.getRepository(User);
 
@@ -18,20 +17,16 @@ export const findUserById = async (userId: string) => {
   return await userRepository.findOneBy({ id: userId });
 };
 
-export const findUser = async (query: Object) => {
+export const findUser = async (query: object) => {
   return await userRepository.findOneBy(query);
 };
 
 export const signTokens = async (user: User) => {
-  redisClient.set(user.id, JSON.stringify(user), {
-    EX: Number(config.redis.cacheExpiresIn) * 60,
-  });
-
-  const access_token = signJwt({ sub: user.id }, "accessTokenPrivateKey", {
+  const access_token = signJwt({ sub: user.id }, "accessToken", {
     expiresIn: `${config.accessTokenExpiresInMinutes}m`,
   });
 
-  const refresh_token = signJwt({ sub: user.id }, "refreshTokenPrivateKey", {
+  const refresh_token = signJwt({ sub: user.id }, "refreshToken", {
     expiresIn: `${config.refreshTokenExpiresInMinutes}m`,
   });
 

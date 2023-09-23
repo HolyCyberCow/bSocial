@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
+import AppError from "../utils/appError";
 
-export const getMeHandler = async (
+export const requireUser = (
   _req: Request,
   res: Response,
   next: NextFunction,
@@ -8,12 +9,13 @@ export const getMeHandler = async (
   try {
     const user = res.locals.user;
 
-    res.status(200).status(200).json({
-      status: "success",
-      data: {
-        user,
-      },
-    });
+    if (!user) {
+      return next(
+        new AppError(400, `Session has expired or user doesn't exist`),
+      );
+    }
+
+    next();
   } catch (err: any) {
     next(err);
   }
