@@ -5,15 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx tsc",
+    "build": "npx tsc -p .",
+    "clean": "rm -rf dist",
+    "build:clean": "npm run clean && npm run build",
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"src/**/*.ts\" --fix",
-    "typeorm": "rm -rf dist && npm run build && npx typeorm -d dist/src/utils/db.js",
-    "migration:generate": "npm run typeorm -- migration:generate",
-    "migration:run": "npm run typeorm -- migration:run",
-    "migration:revert": "npm run typeorm -- migration:revert"
+    "typeorm": "typeorm-ts-node-commonjs -d ./src/utils/db.ts",
+    "migration": "npm run build:clean && npm run typeorm",
+    "migration:generate": "npm run migration -- migration:generate",
+    "migration:run": "npm run migration -- migration:run",
+    "migration:revert": "npm run migration -- migration:revert"
   },
   "keywords": [
     "social",

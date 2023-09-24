@@ -1,23 +1,18 @@
 import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import Model from "./base.entity";
+import { Post } from "./post.entity";
 import { User } from "./user.entity";
 
-// import { PostComment } from "./comment.entity";
-
-@Entity("posts")
-export class Post extends Model {
-  @Column({
-    unique: true,
-  })
-  title: string;
-
+@Entity("comments")
+export class PostComment extends Model {
   @Column()
   content: string;
+
+  @ManyToOne(() => Post)
+  @JoinColumn({ "name": "post_id" })
+  post: Post;
 
   @ManyToOne(() => User)
   @JoinColumn({ "name": "user_id" })
   user: User;
-
-  // @OneToMany(() => PostComment)
-  // post_comments: PostComment[];
 }

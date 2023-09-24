@@ -1,7 +1,9 @@
-import { BeforeInsert, Column, Entity, Index, OneToMany } from "typeorm";
+import { BeforeInsert, Column, Entity, Index } from "typeorm";
 import bcrypt from "bcryptjs";
 import Model from "./base.entity";
-import { Post } from "./post.entity";
+
+// import { Post } from "./post.entity";
+// import { PostComment } from "./comment.entity";
 
 @Entity("users")
 export class User extends Model {
@@ -24,8 +26,11 @@ export class User extends Model {
   @Column()
   password: string;
 
-  @OneToMany(() => Post, (post) => post.user)
-  posts: Post[];
+  // @OneToMany(() => Post, (post) => post.user)
+  // posts: Post[];
+  //
+  // @OneToMany(() => PostComment, (postComment) => postComment.user)
+  // comments: Post[];
 
   @BeforeInsert()
   async hashPassword() {
