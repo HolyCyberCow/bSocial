@@ -10,10 +10,10 @@ export class init1695474065157 implements MigrationInterface {
     );
     await queryRunner.query(`CREATE INDEX "email_index" ON "users" ("email") `);
     await queryRunner.query(
-      `CREATE TABLE "posts" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "title" character varying NOT NULL, "content" character varying NOT NULL, "userId" uuid, CONSTRAINT "unique_post_title" UNIQUE ("title"), CONSTRAINT "PK_post" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "posts" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "title" character varying NOT NULL, "content" character varying NOT NULL, "user_id" uuid, CONSTRAINT "unique_post_title" UNIQUE ("title"), CONSTRAINT "PK_post" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `ALTER TABLE "posts" ADD CONSTRAINT "FK_to_users" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+      `ALTER TABLE "posts" ADD CONSTRAINT "FK_to_users" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
   }
 

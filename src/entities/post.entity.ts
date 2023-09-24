@@ -13,6 +13,6 @@ export class Post extends Model {
   content: string;
 
   @ManyToOne(() => User, (user) => user.posts)
-  @JoinColumn()
+  @JoinColumn({ "name": "user_id" })
   user: User;
 }

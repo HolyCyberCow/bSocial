@@ -10,7 +10,7 @@
     "dev": "nodemon src/index.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"src/**/*.ts\" --fix",
-    "typeorm": "npm run build && npx typeorm -d dist/utils/db.js",
+    "typeorm": "rm -rf dist && npm run build && npx typeorm -d dist/src/utils/db.js",
     "migration:generate": "npm run typeorm -- migration:generate",
     "migration:run": "npm run typeorm -- migration:run",
     "migration:revert": "npm run typeorm -- migration:revert"
