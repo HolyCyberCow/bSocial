@@ -14,7 +14,7 @@ export class Post extends Model {
   @Column()
   content: string;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { "nullable": false })
   @JoinColumn({ "name": "user_id" })
   user: User;
 
