@@ -17,6 +17,13 @@ export const findUserById = async (userId: string) => {
   return await userRepository.findOneBy({ id: userId });
 };
 
+export const findUserWithRelations = async (userId: string) => {
+  return await userRepository.findOne({
+    where: { id: userId },
+    relations: { following: true },
+  });
+};
+
 export const findUser = async (query: object) => {
   return await userRepository.findOneBy(query);
 };
@@ -31,4 +38,13 @@ export const signTokens = async (user: User) => {
   });
 
   return { access_token, refresh_token };
+};
+
+export const followUser = async (user: User, followUser: User) => {
+  if (!user.following) {
+    user.following = [followUser];
+  } else {
+    user.following.push(followUser);
+  }
+  return await userRepository.save(user);
 };

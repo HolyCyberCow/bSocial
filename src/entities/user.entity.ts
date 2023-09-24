@@ -1,4 +1,11 @@
-import { BeforeInsert, Column, Entity, Index } from "typeorm";
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  Index,
+  JoinTable,
+  ManyToMany,
+} from "typeorm";
 import bcrypt from "bcryptjs";
 import Model from "./base.entity";
 
@@ -31,6 +38,14 @@ export class User extends Model {
   //
   // @OneToMany(() => PostComment, (postComment) => postComment.user)
   // comments: Post[];
+
+  @ManyToMany(() => User)
+  @JoinTable({
+    name: "followers",
+    joinColumn: { name: "follower" },
+    inverseJoinColumn: { name: "followee" },
+  })
+  following: User[];
 
   @BeforeInsert()
   async hashPassword() {

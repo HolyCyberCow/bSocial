@@ -41,9 +41,19 @@ export const loginUserSchema = object({
   }),
 });
 
+export const followUserSchema = object({
+  params: object({
+    userId: string({
+      required_error: "User id is required",
+    }),
+  }),
+});
+
 export type CreateUserInput = Omit<
   TypeOf<typeof createUserSchema>["body"],
   "passwordConfirm"
 >;
 
 export type LoginUserInput = TypeOf<typeof loginUserSchema>["body"];
+
+export type FollowUserInput = TypeOf<typeof followUserSchema>["params"];

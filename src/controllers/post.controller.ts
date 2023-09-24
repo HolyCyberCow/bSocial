@@ -1,10 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import {
+  CreatePostCommentInput,
   CreatePostInput,
   GetPostInput,
   GetPostListInput,
 } from "../schemas/post.schema";
-import { createPost, findPosts, getPost } from "../services/post.service";
+import {
+  createPost,
+  createPostComment,
+  findPosts,
+  getPost,
+  getPostComments,
+} from "../services/post.service";
 import { findUserById } from "../services/user.service";
 import AppError from "../utils/appError";
 
@@ -70,19 +77,53 @@ export const getPostsHandler = async (
 ) => {
   try {
     let { page, perPage } = req.query;
-    const { data, totalCount } = await findPosts(
+    const postsList = await findPosts(
       page,
       perPage,
+    );
+    res.status(200).json({
+      status: "success",
+      ...postsList,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const createPostCommentHandler = async (
+  req: Request<GetPostInput, Record<string, never>, CreatePostCommentInput>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const user = await findUserById(res.locals.user.id as string);
+    const post = await getPost(req.params.postId);
+    const postComment = await createPostComment(
+      req.body,
+      post!,
+      user!,
     );
 
     res.status(200).json({
       status: "success",
-      paging: {
-        page: req.query.page,
-        perPage: req.query.perPage,
-        totalCount: totalCount,
-      },
-      data: data,
+      comment: postComment,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const getPostCommentsHandler = async (
+  req: Request<GetPostInput>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const postComments = await getPostComments(req.params.postId);
+
+    res.status(200).json({
+      status: "success",
+      data: postComments,
     });
   } catch (err: any) {
     next(err);

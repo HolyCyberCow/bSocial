@@ -1,4 +1,4 @@
-import { coerce, number, object, string, TypeOf } from "zod";
+import { coerce, object, string, TypeOf } from "zod";
 
 export const createPostSchema = object({
   body: object({
@@ -28,6 +28,17 @@ export const getPostListSchema = object({
   }),
 });
 
+export const createPostCommentSchema = object({
+  body: object({
+    content: string({
+      required_error: "Content is required",
+    }),
+  }),
+});
+
 export type CreatePostInput = TypeOf<typeof createPostSchema>["body"];
 export type GetPostInput = TypeOf<typeof getPostSchema>["params"];
 export type GetPostListInput = TypeOf<typeof getPostListSchema>["query"];
+export type CreatePostCommentInput = TypeOf<
+  typeof createPostCommentSchema
+>["body"];
