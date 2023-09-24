@@ -54,7 +54,6 @@ export const registerUserHandler = async (
       status: "success",
     });
   } catch (err: any) {
-    console.log(err);
     if ((err.code = "23505")) {
       return res.status(409).json({
         status: "error",

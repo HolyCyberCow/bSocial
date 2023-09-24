@@ -19,7 +19,6 @@ export const userAuth = async (
     } else if (req.cookies.access_token) {
       access_token = req.cookies.access_token;
     }
-    console.log(req.cookies);
 
     if (!access_token) {
       return next(new AppError(401, "You are not logged in"));
@@ -29,7 +28,6 @@ export const userAuth = async (
       access_token,
       "accessToken",
     );
-    console.log(decoded);
     if (!decoded) {
       return next(new AppError(401, `Invalid token or user doesn't exist`));
     }

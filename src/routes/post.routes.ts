@@ -7,7 +7,11 @@ import {
 import { userAuth } from "../middleware/userAuth";
 import { requireUser } from "../middleware/requireUser";
 import { validate } from "../middleware/validate";
-import { createPostSchema, getPostSchema } from "../schemas/post.schema";
+import {
+  createPostSchema,
+  getPostListSchema,
+  getPostSchema,
+} from "../schemas/post.schema";
 
 const router = Router();
 
@@ -15,7 +19,7 @@ router.use(userAuth, requireUser);
 router
   .route("/")
   .post(validate(createPostSchema), createPostHandler)
-  .get(getPostsHandler);
+  .get(validate(getPostListSchema), getPostsHandler);
 
 router.route("/:postId").get(validate(getPostSchema), getPostHandler);
 

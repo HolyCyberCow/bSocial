@@ -13,19 +13,30 @@ export const getPost = async (postId: string) => {
   return await postRepository.findOneBy({ id: postId });
 };
 
-export const findPosts = async (req: Request) => {
-  const builder = postRepository.createQueryBuilder("post");
+export const findPosts = async (page: number = 1, perPage: number = 30) => {
+  const [results, totalCount] = await postRepository.findAndCount({
+    where: {},
+    order: { "created_at": "DESC" },
+    take: perPage,
+    skip: (page - 1) * perPage,
+  });
 
-  if (req.query.search) {
-    builder.where("post.title LIKE :search OR post.content LIKE :search", {
-      search: `%${req.query.search}%`,
-    });
-  }
-
-  if (req.query.sort) {
-    const sortQuery = req.query.sort === "DESC" ? "DESC" : "ASC";
-    builder.orderBy("post.title", sortQuery);
-  }
-
-  return await builder.getMany();
+  return {
+    totalCount,
+    data: results,
+  };
+  // const builder = postRepository.createQueryBuilder("post");
+  //
+  // if (req.query.search) {
+  //   builder.where("post.title LIKE :search OR post.content LIKE :search", {
+  //     search: `%${req.query.search}%`,
+  //   });
+  // }
+  //
+  // if (req.query.sort) {
+  //   const sortQuery = req.query.sort === "DESC" ? "DESC" : "ASC";
+  //   builder.orderBy("post.title", sortQuery);
+  // }
+  //
+  // return await builder.getMany();
 };

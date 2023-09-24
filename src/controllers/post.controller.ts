@@ -1,5 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { CreatePostInput, GetPostInput } from "../schemas/post.schema";
+import {
+  CreatePostInput,
+  GetPostInput,
+  GetPostListInput,
+} from "../schemas/post.schema";
 import { createPost, findPosts, getPost } from "../services/post.service";
 import { findUserById } from "../services/user.service";
 import AppError from "../utils/appError";
@@ -55,19 +59,30 @@ export const getPostHandler = async (
 };
 
 export const getPostsHandler = async (
-  req: Request,
+  req: Request<
+    Record<string, never>,
+    Record<string, never>,
+    Record<string, never>,
+    GetPostListInput
+  >,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const posts = await findPosts(req);
+    let { page, perPage } = req.query;
+    const { data, totalCount } = await findPosts(
+      page,
+      perPage,
+    );
 
     res.status(200).json({
       status: "success",
-      results: posts.length,
-      data: {
-        posts,
+      paging: {
+        page: req.query.page,
+        perPage: req.query.perPage,
+        totalCount: totalCount,
       },
+      data: data,
     });
   } catch (err: any) {
     next(err);
