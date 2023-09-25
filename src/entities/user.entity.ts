@@ -9,6 +9,43 @@ import {
 import bcrypt from "bcryptjs";
 import Model from "./base.entity";
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UserData:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: User id
+ *           example: e27b82aa-8e3b-4e69-b1de-a1c10e769e05
+ *         created_at:
+ *           type: date
+ *           description: User created at timestamp
+ *           example: 2023-09-24T16:24:18.322Z
+ *         updated_at:
+ *           type: date
+ *           description: User last update timestamp
+ *           example: 2023-09-24T16:24:18.322Z
+ *         first_name:
+ *           type: string
+ *           description: User's first name
+ *           example: John
+ *         last_name:
+ *           type: string
+ *           description: User's last name
+ *           example: Doe
+ *         username:
+ *           type: string
+ *           description: User's username
+ *           example: jDoe
+ *         email:
+ *           type: string
+ *           description: User's email
+ *           example: jdoe@mail.net
+ */
+
 @Entity("users")
 export class User extends Model {
   @Column()

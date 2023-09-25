@@ -123,7 +123,7 @@ router.post("/login", validate(loginUserSchema), loginUserHandler);
  * @swagger
  *
  * /api/auth/logout:
- *   post:
+ *   get:
  *     security:
  *       - cookieAuth: []
  *     summary: User logout
@@ -148,7 +148,7 @@ router.get("/logout", userAuth, requireUser, logoutHandler);
  * @swagger
  *
  * /api/auth/refresh:
- *   post:
+ *   get:
  *     security:
  *       - cookieAuth: []
  *       - refreshSession: []
