@@ -113,10 +113,7 @@ export const refreshAccessTokenHandler = async (
       return next(new AppError(403, message));
     }
 
-    const decoded = verifyJwt<{ sub: string }>(
-      refresh_token,
-      "refreshToken",
-    );
+    const decoded = verifyJwt<{ sub: string }>(refresh_token, "refreshToken");
 
     if (!decoded) {
       return next(new AppError(403, message));

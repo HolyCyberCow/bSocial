@@ -6,8 +6,10 @@ export const signJwt = (
   keyName: "accessToken" | "refreshToken",
   options: SignOptions,
 ) => {
-  const privateKey = Buffer.from(config.keys[keyName].privateKey, "base64")
-    .toString("ascii");
+  const privateKey = Buffer.from(
+    config.keys[keyName].privateKey,
+    "base64",
+  ).toString("ascii");
   return jwt.sign(payload, privateKey, {
     ...(options && options),
     algorithm: "RS256",
@@ -19,8 +21,10 @@ export const verifyJwt = <T>(
   keyName: "accessToken" | "refreshToken",
 ): T | null => {
   try {
-    const publicKey = Buffer.from(config.keys[keyName].publicKey, "base64")
-      .toString("ascii");
+    const publicKey = Buffer.from(
+      config.keys[keyName].publicKey,
+      "base64",
+    ).toString("ascii");
     const decoded = jwt.verify(token, publicKey) as T;
 
     return decoded;

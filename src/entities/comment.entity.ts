@@ -8,11 +8,11 @@ export class PostComment extends Model {
   @Column()
   content: string;
 
-  @ManyToOne(() => Post, { "nullable": false })
-  @JoinColumn({ "name": "post_id" })
+  @ManyToOne(() => Post, { nullable: false })
+  @JoinColumn({ name: "post_id" })
   post: Post;
 
-  @ManyToOne(() => User, { "nullable": false })
-  @JoinColumn({ "name": "user_id" })
+  @ManyToOne(() => User, { nullable: false })
+  @JoinColumn({ name: "user_id" })
   user: User;
 }

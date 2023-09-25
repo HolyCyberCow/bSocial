@@ -76,11 +76,9 @@ export const getPostsHandler = async (
   next: NextFunction,
 ) => {
   try {
-    let { page, perPage } = req.query;
-    const postsList = await findPosts(
-      page,
-      perPage,
-    );
+    const { page, perPage } = req.query;
+    const user = res.locals.user;
+    const postsList = await findPosts(user, page, perPage);
     res.status(200).json({
       status: "success",
       ...postsList,
@@ -98,11 +96,7 @@ export const createPostCommentHandler = async (
   try {
     const user = await findUserById(res.locals.user.id as string);
     const post = await getPost(req.params.postId);
-    const postComment = await createPostComment(
-      req.body,
-      post!,
-      user!,
-    );
+    const postComment = await createPostComment(req.body, post, user);
 
     res.status(200).json({
       status: "success",

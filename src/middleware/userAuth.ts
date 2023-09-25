@@ -24,10 +24,7 @@ export const userAuth = async (
       return next(new AppError(401, "You are not logged in"));
     }
 
-    const decoded = verifyJwt<{ sub: string }>(
-      access_token,
-      "accessToken",
-    );
+    const decoded = verifyJwt<{ sub: string }>(access_token, "accessToken");
     if (!decoded) {
       return next(new AppError(401, `Invalid token or user doesn't exist`));
     }

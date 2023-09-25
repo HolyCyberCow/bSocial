@@ -25,10 +25,13 @@ router
   .get(validate(getPostListSchema), getPostsHandler);
 
 router.route("/:postId").get(validate(getPostSchema), getPostHandler);
-router.route("/:postId/comment").post(
-  validate(createPostCommentSchema),
-  validate(getPostSchema),
-  createPostCommentHandler,
-).get(validate(getPostSchema), getPostCommentsHandler);
+router
+  .route("/:postId/comment")
+  .post(
+    validate(createPostCommentSchema),
+    validate(getPostSchema),
+    createPostCommentHandler,
+  )
+  .get(validate(getPostSchema), getPostCommentsHandler);
 
 export default router;

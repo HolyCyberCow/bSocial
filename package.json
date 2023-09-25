@@ -12,6 +12,7 @@
     "dev": "nodemon src/index.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"src/**/*.ts\" --fix",
+    "fl": "npm run format && npm run lint",
     "typeorm": "typeorm-ts-node-commonjs -d ./src/utils/db.ts",
     "migration": "npm run build:clean && npm run typeorm",
     "migration:generate": "npm run migration -- migration:generate",
