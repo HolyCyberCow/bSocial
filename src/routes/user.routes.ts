@@ -24,7 +24,7 @@ router.use(userAuth, requireUser);
  *       - cookieAuth: []
  *     responses:
  *       200:
- *         description: THe logged in user's data.
+ *         description: The logged in user's data.
  *         content:
  *           application/json:
  *             schema:

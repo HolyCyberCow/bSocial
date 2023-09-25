@@ -67,5 +67,6 @@ export const createPostComment = async (
 export const getPostComments = async (postId: string) => {
   return await postCommentRepostiory.find({
     where: { post: { id: postId } },
+    relations: { user: true },
   });
 };

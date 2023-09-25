@@ -45,7 +45,6 @@ import Model from "./base.entity";
  *           description: User's email
  *           example: jdoe@mail.net
  */
-
 @Entity("users")
 export class User extends Model {
   @Column()

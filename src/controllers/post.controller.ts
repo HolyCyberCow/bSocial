@@ -42,29 +42,6 @@ export const createPostHandler = async (
   }
 };
 
-export const getPostHandler = async (
-  req: Request<GetPostInput>,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const post = await getPost(req.params.postId);
-
-    if (!post) {
-      return next(new AppError(404, "Post with that ID not found"));
-    }
-
-    res.status(200).json({
-      status: "success",
-      data: {
-        post,
-      },
-    });
-  } catch (err: any) {
-    next(err);
-  }
-};
-
 export const getPostsHandler = async (
   req: Request<
     Record<string, never>,
@@ -96,6 +73,11 @@ export const createPostCommentHandler = async (
   try {
     const user = await findUserById(res.locals.user.id as string);
     const post = await getPost(req.params.postId);
+
+    if (!post) {
+      return next(new AppError(404, "Post with that ID not found"));
+    }
+
     const postComment = await createPostComment(req.body, post, user);
 
     res.status(200).json({

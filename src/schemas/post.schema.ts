@@ -1,5 +1,21 @@
 import { coerce, object, string, TypeOf } from "zod";
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     CreatePostData:
+ *       type: object
+ *       properties:
+ *         title:
+ *           type: string
+ *           description: Post title.
+ *           example: The Lorem Ipsum
+ *         content:
+ *           type: string
+ *           description:  Post content
+ *           example: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elit magna, gravida sit amet lectus non, sollicitudin volutpat risus. Proin nisl dolor, sodales in metus eget, ornare hendrerit velit.
+ */
 export const createPostSchema = object({
   body: object({
     title: string({
@@ -28,6 +44,18 @@ export const getPostListSchema = object({
   }),
 });
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     CreatePostCommentData:
+ *       type: object
+ *       properties:
+ *         content:
+ *           type: string
+ *           description: Post comment content
+ *           example: Such exquisite, much wow! :o
+ */
 export const createPostCommentSchema = object({
   body: object({
     content: string({
