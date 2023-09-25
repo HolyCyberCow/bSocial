@@ -7,10 +7,40 @@ import authRouter from "./routes/auth.routes";
 import userRouter from "./routes/user.routes";
 import postRouter from "./routes/post.routes";
 import config from "./config/config";
+import {
+  serve as serveSwagger,
+  setup as setupSwagger,
+} from "swagger-ui-express";
+import swaggerJSDoc from "swagger-jsdoc";
+
+const swaggerUiOptions = {
+  explorer: true,
+};
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+const swaggerJsDocOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "bSocial API",
+      version: "0.0.1",
+      description: "bSocial API Documentation",
+    },
+    servers: [
+      {
+        url: `http://localhost:${config.appPort}`,
+        description: "Development server",
+      },
+    ],
+  },
+  apis: ["./src/{routes,schemas,entities}/*.ts"],
+};
+const swaggerSpec = swaggerJSDoc(swaggerJsDocOptions);
+app.use("/api/docs", serveSwagger, setupSwagger(swaggerSpec, swaggerUiOptions));
+
 app.use(cookieParser());
 
 app.use(
