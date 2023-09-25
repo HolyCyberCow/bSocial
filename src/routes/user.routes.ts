@@ -72,6 +72,12 @@ router.get("/me", getMeHandler);
  *                   type: string
  *                   description: Operation message. Notifies the requesting user that he is now following user `{username}`.
  *                   example: You are now following user jDoeImpostor.
+ *       404:
+ *         description: In case the provided user does not exist
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#components/schemas/SimpleResponse'
  */
 router.get("/:userId/follow", validate(followUserSchema), followUserHanlder);
 

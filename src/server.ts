@@ -36,7 +36,7 @@ const swaggerJsDocOptions = {
       },
     ],
   },
-  apis: ["./src/{routes,schemas,entities}/*.ts"],
+  apis: ["./src/**/*.ts"],
 };
 const swaggerSpec = swaggerJSDoc(swaggerJsDocOptions);
 app.use("/api/docs", serveSwagger, setupSwagger(swaggerSpec, swaggerUiOptions));
@@ -54,6 +54,22 @@ app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/posts", postRouter);
 
+/**
+ * @swagger
+ *
+ * /ping:
+ *   get:
+ *     summary: Ping
+ *     description: Ping the backend server / Health check
+ *     tags: [Global]
+ *     responses:
+ *       200:
+ *         description: A successfull ping response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#components/schemas/SimpleMessageResponse'
+ */
 app.get("/ping", (_, res: Response) => {
   res.status(StatusCodes.OK).json({ status: "success", message: "pong" });
 });
@@ -73,3 +89,79 @@ app.use((error: AppError, _req: Request, res: Response) => {
     message: error.message,
   });
 });
+
+/**
+ * @swagger
+ * components:
+ *   responses:
+ *     ValidationErrorResponse:
+ *       description: Invlaid request, validation error.
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               status:
+ *                 type: string
+ *                 description: Operation/Request status.
+ *                 example: "fail"
+ *               errors:
+ *                 type: array
+ *                 description: Validation errors
+ *                 items:
+ *                   type: object
+ *                   $ref: '#components/schemas/ValidationError'
+ *     UnauthorizedResponse:
+ *       description: User not authorized to perform action; missing authentication cookies.
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#components/schemas/SimpleMessageResponse'
+ *   schemas:
+ *     SimpleResponse:
+ *       type: object
+ *       description: Simple response for common responses and simple error cases
+ *       properties:
+ *         status:
+ *           type: string
+ *           description: Operation/Request status.
+ *           example: success|fail|error
+ *     SimpleMessageResponse:
+ *       type: object
+ *       description: Simple response for common responses and simple error cases
+ *       properties:
+ *         status:
+ *           type: string
+ *           description: Request/Operation status
+ *           example: success|fail|error
+ *         message:
+ *           type: string
+ *           description: Resulting operation message
+ *           example: Success message | Fail message | Error message
+ *     ValidationError:
+ *       type: object
+ *       description: Valdiation error object (Zod)
+ *       properties:
+ *         code:
+ *           type: string
+ *           description: Error code.
+ *           example: invalid_type
+ *         expected:
+ *           type: string
+ *           description: The expected value
+ *           example: string
+ *         recieved:
+ *           type: string
+ *           description: Recieved value
+ *           example: "undefined"
+ *         path:
+ *           type: array
+ *           description: Path to the invalid value
+ *           example: ["body|path|query", "field"]
+ *           items:
+ *             type: string
+ *         message:
+ *           type: string
+ *           description: Error message
+ *           example: Field is required
+ */

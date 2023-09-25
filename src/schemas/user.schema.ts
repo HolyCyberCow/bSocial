@@ -92,7 +92,7 @@ export const followUserSchema = object({
   params: object({
     userId: string({
       required_error: "User id is required",
-    }),
+    }).uuid(),
   }),
 });
 

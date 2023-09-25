@@ -35,7 +35,11 @@ export const followUserHanlder = async (
     const user = await findUserWithRelations(res.locals.user.id);
     const requestedFollowUser = await findUserById(req.params.userId);
     if (!requestedFollowUser) {
-      return next(new AppError(404, "User with that ID not found"));
+      res.status(404).json({
+        status: "fail",
+        message: "User not found.",
+      });
+      // return next(new AppError(404, "User with that ID not found"));
     }
     if (user.following.find((val) => val.id === requestedFollowUser.id)) {
       return next(new AppError(404, "Already following that user"));

@@ -21,7 +21,11 @@ export const userAuth = async (
     }
 
     if (!access_token) {
-      return next(new AppError(401, "You are not logged in"));
+      res.status(401).json({
+        status: "fail",
+        message: "You are not logged in!",
+      });
+      // return next(new AppError(401, "You are not logged in"));
     }
 
     const decoded = verifyJwt<{ sub: string }>(access_token, "accessToken");

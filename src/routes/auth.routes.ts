@@ -46,27 +46,15 @@ const router = Router();
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   description: Operation/Request status.
- *                   example: success
+ *               $ref: '#components/schemas/SimpleResponse'
+ *       400:
+ *         $ref: '#components/responses/ValidationErrorResponse'
  *       409:
  *         description: An unsuccessful user registration response.
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   description: Operation/Request status.
- *                   example: error
- *                 message:
- *                   type: string
- *                   description: Failure message/reason.
- *                   example: user with that emai already exists.
+ *               $ref: '#components/schemas/SimpleMessageResponse'
  */
 router.post("/register", validate(createUserSchema), registerUserHandler);
 
@@ -91,31 +79,14 @@ router.post("/register", validate(createUserSchema), registerUserHandler);
  *           Set-Cookie:
  *             schema:
  *               type: string
- *               example: access_token=eyJhbGci... { characters in here where trimmed for visibility} ...Co_7zQ; Max-Age=900; Path=/; Expires=Mon, 25 Sep 2023 13:41:47 GMT; HttpOnly; SameSite=Lax
+ *               description: "Set cookie header, the server returns 3: access token, refresh token and 'logged in' cookie"
+ *               example: access_token|refresh_token=eyJhbGci... { characters in here where trimmed for visibility} ...Co_7zQ; Max-Age=900; Path=/; Expires=Mon, 25 Sep 2023 13:41:47 GMT; HttpOnly; SameSite=Lax
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   description: Operation/Request status.
- *                   example: success
+ *               $ref: '#components/schemas/SimpleResponse'
  *       400:
- *         description: An unsuccessful user login response.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   description: Operation/Request status.
- *                   example: error
- *                 errors:
- *                   type: string
- *                   description: Failure message/reason; errors.
- *                   example: Invalid username or password
+ *         $ref: '#components/responses/ValidationErrorResponse'
  */
 router.post("/login", validate(loginUserSchema), loginUserHandler);
 
@@ -132,15 +103,18 @@ router.post("/login", validate(loginUserSchema), loginUserHandler);
  *     responses:
  *       200:
  *         description: A successfull user logout response.
+ *         headers:
+ *           Set-Cookie:
+ *             schema:
+ *               type: string
+ *               description: "Set cookie header, the server returns 3: access token, refresh token and 'logged in' cookie"
+ *               example: access_token|refresh_token=; Max-Age=0; Path=/; Expires=Mon, 25 Sep 2023 19:09:08 GMT
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   description: Operation/Request status.
- *                   example: success
+ *               $ref: '#components/schemas/SimpleResponse'
+ *       401:
+ *         $ref: '#components/responses/UnauthorizedResponse'
  */
 router.get("/logout", userAuth, requireUser, logoutHandler);
 
@@ -157,7 +131,7 @@ router.get("/logout", userAuth, requireUser, logoutHandler);
  *     tags: [Auth]
  *     responses:
  *       200:
- *         description: A successfull user isession refresh response.
+ *         description: A successfull user session refresh response.
  *         content:
  *           application/json:
  *             schema:
@@ -167,6 +141,8 @@ router.get("/logout", userAuth, requireUser, logoutHandler);
  *                   type: string
  *                   description: Operation/Request status.
  *                   example: success
+ *       401:
+ *         $ref: '#components/responses/UnauthorizedResponse'
  */
 router.get("/refresh", refreshAccessTokenHandler);
 

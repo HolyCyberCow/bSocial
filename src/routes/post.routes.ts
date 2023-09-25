@@ -42,6 +42,23 @@ router.use(userAuth, requireUser);
  *             schema:
  *               type: object
  *               $ref: '#components/schemas/PostData'
+ *       400:
+ *         description: An unsuccessful post create response.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Operation/Request status.
+ *                   example: error
+ *                 errors:
+ *                   type: array
+ *                   description: Validation errors
+ *                   items:
+ *                     type: object
+ *                     $ref: '#components/schemas/ValidationError'
  *       409:
  *         description: An unsuccessful post create response.
  *         content:
@@ -108,6 +125,23 @@ router.use(userAuth, requireUser);
  *                   items:
  *                     type: object
  *                     $ref: '#components/schemas/PostWithUserData'
+ *       400:
+ *         description: An unsuccessful get posts response.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Operation/Request status.
+ *                   example: error
+ *                 errors:
+ *                   type: array
+ *                   description: Validation errors
+ *                   items:
+ *                     type: object
+ *                     $ref: '#components/schemas/ValidationError'
  */
 router
   .route("/")
@@ -151,6 +185,23 @@ router
  *                   example: success
  *                 comment:
  *                   $ref: '#components/schemas/PostCommentData'
+ *       400:
+ *         description: An unsuccessful create post comment response.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Operation/Request status.
+ *                   example: error
+ *                 errors:
+ *                   type: array
+ *                   description: Validation errors
+ *                   items:
+ *                     type: object
+ *                     $ref: '#components/schemas/ValidationError'
  *       404:
  *         description: Target post not found.
  *         content:

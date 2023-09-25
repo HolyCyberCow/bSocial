@@ -109,19 +109,28 @@ export const refreshAccessTokenHandler = async (
     const message = "Could not refresh access token";
 
     if (!refresh_token) {
-      return next(new AppError(403, message));
+      res.status(401).json({
+        status: "fail",
+        message,
+      });
     }
 
     const decoded = verifyJwt<{ sub: string }>(refresh_token, "refreshToken");
 
     if (!decoded) {
-      return next(new AppError(403, message));
+      res.status(401).json({
+        status: "fail",
+        message,
+      });
     }
 
     const user = await findUserById(decoded.sub);
 
     if (!user) {
-      return next(new AppError(403, message));
+      res.status(401).json({
+        status: "fail",
+        message,
+      });
     }
 
     const access_token = signJwt({ sub: user.id }, "accessToken", {
@@ -136,7 +145,6 @@ export const refreshAccessTokenHandler = async (
 
     res.status(200).json({
       status: "success",
-      access_token,
     });
   } catch (err: any) {
     next(err);
