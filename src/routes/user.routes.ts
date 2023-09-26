@@ -36,6 +36,8 @@ router.use(userAuth, requireUser);
  *                   example: success
  *                 data:
  *                   $ref: '#components/schemas/UserData'
+ *       401:
+ *         $ref: '#components/responses/UnauthorizedResponse'
  */
 router.get("/me", getMeHandler);
 
@@ -72,12 +74,20 @@ router.get("/me", getMeHandler);
  *                   type: string
  *                   description: Operation message. Notifies the requesting user that he is now following user `{username}`.
  *                   example: You are now following user jDoeImpostor.
+ *       401:
+ *         $ref: '#components/responses/UnauthorizedResponse'
  *       404:
  *         description: In case the provided user does not exist
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#components/schemas/SimpleResponse'
+ *               $ref: '#components/schemas/SimpleMessageResponse'
+ *       409:
+ *         description: In case the requesting user is already following the provided user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#components/schemas/SimpleMessageResponse'
  */
 router.get("/:userId/follow", validate(followUserSchema), followUserHanlder);
 

@@ -39,10 +39,12 @@ export const followUserHanlder = async (
         status: "fail",
         message: "User not found.",
       });
-      // return next(new AppError(404, "User with that ID not found"));
     }
     if (user.following.find((val) => val.id === requestedFollowUser.id)) {
-      return next(new AppError(404, "Already following that user"));
+      res.status(409).json({
+        status: "fail",
+        message: "Already following user.",
+      });
     }
 
     await followUser(user, requestedFollowUser);
