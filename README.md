@@ -182,6 +182,14 @@ npm run migration:revert
 
 ### Notes
 
+#### General
+
+App uses:
+
+- `express` pacakge to create a server
+- `typeorm` to manage database connection, entity and migration management
+- `zod` to validate incoming request data
+
 #### Auth
 
 The app uses **cookie** based auth and stores **JWT** tokens inside **cookies**,

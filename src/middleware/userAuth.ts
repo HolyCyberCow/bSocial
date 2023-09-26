@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { findUserById } from "../services/user.service";
-import AppError from "../utils/appError";
 import { verifyJwt } from "../utils/jwt";
 
 export const userAuth = async (
@@ -25,18 +24,23 @@ export const userAuth = async (
         status: "fail",
         message: "You are not logged in!",
       });
-      // return next(new AppError(401, "You are not logged in"));
     }
 
     const decoded = verifyJwt<{ sub: string }>(access_token, "accessToken");
     if (!decoded) {
-      return next(new AppError(401, `Invalid token or user doesn't exist`));
+      res.status(401).json({
+        status: "error",
+        message: "Invalid token or user doesn't exist",
+      });
     }
 
     const user = await findUserById(decoded.sub);
 
     if (!user) {
-      return next(new AppError(401, `Invalid token or session has expired`));
+      res.status(401).json({
+        status: "error",
+        message: "Invalid token or session has expired",
+      });
     }
 
     res.locals.user = user;

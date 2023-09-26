@@ -1,8 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { StatusCodes } from "http-status-codes";
-import AppError from "./utils/appError";
 import authRouter from "./routes/auth.routes";
 import userRouter from "./routes/user.routes";
 import postRouter from "./routes/post.routes";
@@ -71,24 +69,17 @@ app.use("/api/posts", postRouter);
  *               $ref: '#components/schemas/SimpleMessageResponse'
  */
 app.get("/ping", (_, res: Response) => {
-  res.status(StatusCodes.OK).json({ status: "success", message: "pong" });
+  res.status(200).json({ status: "success", message: "pong" });
 });
 
-app.all("*", (req: Request, _, next: NextFunction) => {
-  next(new AppError(404, `Route ${req.originalUrl} not found`));
+app.all("*", (req: Request, res: Response) => {
+  res.status(404).json({
+    status: "error",
+    message: `Route ${req.originalUrl} not found`,
+  });
 });
 
 export default app;
-
-app.use((error: AppError, _req: Request, res: Response) => {
-  error.status = error.status || "error";
-  error.statusCode = error.statusCode || 500;
-
-  res.status(error.statusCode).json({
-    status: error.status,
-    message: error.message,
-  });
-});
 
 /**
  * @swagger
