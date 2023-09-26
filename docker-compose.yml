@@ -10,9 +10,10 @@ services:
     depends_on:
       - database 
     environment:
-      NODE_ENV: development
+      NODE_ENV: dev
+      POSTGRES_HOST: database
     ports:
-      - ${APP_PORT}:${APP_PORT}
+      - 8081:${APP_PORT}
     command: npm run dev
     volumes:
       - .:/usr/src/app

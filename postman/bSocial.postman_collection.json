@@ -1,0 +1,297 @@
+{
+	"info": {
+		"_postman_id": "6226f8d3-6c4e-428b-824a-2cc30aee23a7",
+		"name": "bSocial",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13052537"
+	},
+	"item": [
+		{
+			"name": "posts",
+			"item": [
+				{
+					"name": "createPost",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"The test Post\",\n    \"content\": \"Lorem ipsum\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backendUrl}}/api/posts",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPosts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendUrl}}/api/posts?page=1&perPage=30",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "30"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createPostComment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"Exquisite!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backendUrl}}/api/posts/:postId/comment",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								":postId",
+								"comment"
+							],
+							"variable": [
+								{
+									"key": "postId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPostComments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendUrl}}/api/posts/:postId/comment",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								":postId",
+								"comment"
+							],
+							"variable": [
+								{
+									"key": "postId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"test\",\n    \"last_name\": \"test\",\n    \"username\": \"T35T\",\n    \"email\": \"test@test.net\",\n    \"password\": \"test12345!\",\n    \"password_confirm\": \"test12345!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backendUrl}}/api/auth/register",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@test.net\",\n    \"password\": \"test12345!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backendUrl}}/api/auth/login",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendUrl}}/api/auth/refresh",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendUrl}}/api/auth/logout",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendUrl}}/api/users/me",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "followUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendUrl}}/api/users/:userId/follow",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":userId",
+								"follow"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{backendUrl}}/ping",
+					"host": [
+						"{{backendUrl}}"
+					],
+					"path": [
+						"ping"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
