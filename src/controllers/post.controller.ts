@@ -75,7 +75,10 @@ export const createPostCommentHandler = async (
     const post = await getPost(req.params.postId);
 
     if (!post) {
-      return next(new AppError(404, "Post with that ID not found"));
+      res.status(404).json({
+        status: "fail",
+        message: "Target post not found.",
+      });
     }
 
     const postComment = await createPostComment(req.body, post, user);
@@ -95,6 +98,15 @@ export const getPostCommentsHandler = async (
   next: NextFunction,
 ) => {
   try {
+    const post = await getPost(req.params.postId);
+
+    if (!post) {
+      res.status(404).json({
+        status: "fail",
+        message: "Target post not found.",
+      });
+    }
+
     const postComments = await getPostComments(req.params.postId);
 
     res.status(200).json({

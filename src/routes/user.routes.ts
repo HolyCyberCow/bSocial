@@ -76,6 +76,8 @@ router.get("/me", getMeHandler);
  *                   example: You are now following user jDoeImpostor.
  *       401:
  *         $ref: '#components/responses/UnauthorizedResponse'
+ *       400:
+ *         $ref: '#components/responses/ValidationErrorResponse'
  *       404:
  *         description: In case the provided user does not exist
  *         content:

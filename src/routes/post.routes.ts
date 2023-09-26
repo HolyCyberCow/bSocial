@@ -41,39 +41,17 @@ router.use(userAuth, requireUser);
  *           application/json:
  *             schema:
  *               type: object
- *               $ref: '#components/schemas/PostData'
+ *               $ref: '#components/schemas/PostWithUserData'
  *       400:
- *         description: An unsuccessful post create response.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   description: Operation/Request status.
- *                   example: error
- *                 errors:
- *                   type: array
- *                   description: Validation errors
- *                   items:
- *                     type: object
- *                     $ref: '#components/schemas/ValidationError'
+ *         $ref: '#components/responses/ValidationErrorResponse'
+ *       401:
+ *         $ref: '#components/responses/UnauthorizedResponse'
  *       409:
- *         description: An unsuccessful post create response.
+ *         description: When the post with the provided title already exists.
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   description: Operation/Request status.
- *                   example: error
- *                 message:
- *                   type: string
- *                   description: Failure message/reason.
- *                   example: Post with that title already exist.
+ *               $ref: "#components/schemas/SimpleMessageResponse"
  *   get:
  *     summary: Get a list of posts
  *     description: Get a **paginated list** of **user** `posts`. Only `posts` from the **requesting user** and his **folowees** are returned.
@@ -126,22 +104,9 @@ router.use(userAuth, requireUser);
  *                     type: object
  *                     $ref: '#components/schemas/PostWithUserData'
  *       400:
- *         description: An unsuccessful get posts response.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   description: Operation/Request status.
- *                   example: error
- *                 errors:
- *                   type: array
- *                   description: Validation errors
- *                   items:
- *                     type: object
- *                     $ref: '#components/schemas/ValidationError'
+ *         $ref: '#components/responses/ValidationErrorResponse'
+ *       401:
+ *         $ref: '#components/responses/UnauthorizedResponse'
  */
 router
   .route("/")
@@ -186,40 +151,18 @@ router
  *                 comment:
  *                   $ref: '#components/schemas/PostCommentData'
  *       400:
- *         description: An unsuccessful create post comment response.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   description: Operation/Request status.
- *                   example: error
- *                 errors:
- *                   type: array
- *                   description: Validation errors
- *                   items:
- *                     type: object
- *                     $ref: '#components/schemas/ValidationError'
+ *         $ref: '#components/responses/ValidationErrorResponse'
+ *       401:
+ *         $ref: '#components/responses/UnauthorizedResponse'
  *       404:
  *         description: Target post not found.
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   description: Operation/Request status.
- *                   example: error
- *                 message:
- *                   type: string
- *                   description: Failure message/reason.
- *                   example: Target post not found.
+ *               $ref: '#components/schemas/SimpleMessageResponse'
  *   get:
  *     summary: Get post comments
- *     description: Get all `comments` associated with the provided `post` **id**.
+ *     description: Get all `comments` associated with the provided `post` **id** and the `users` that created the comments.
  *     tags: [Posts]
  *     security:
  *       - cookieAuth: []
@@ -232,7 +175,7 @@ router
  *         example: bfb46036-79a1-4bc7-a29a-996800804bb4
  *     responses:
  *       200:
- *         description: A list of post's comments.
+ *         description: A list of post's comments and their respective `user` creators.
  *         content:
  *           application/json:
  *             schema:
@@ -247,21 +190,16 @@ router
  *                   items:
  *                     type: object
  *                     $ref: '#components/schemas/PostCommentListData'
+ *       400:
+ *         $ref: '#components/responses/ValidationErrorResponse'
+ *       401:
+ *         $ref: '#components/responses/UnauthorizedResponse'
  *       404:
  *         description: Target post not found.
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   description: Operation/Request status.
- *                   example: error
- *                 message:
- *                   type: string
- *                   description: Failure message/reason.
- *                   example: Target post not found.
+ *               $ref: '#components/schemas/SimpleMessageResponse'
  */
 router
   .route("/:postId/comment")
