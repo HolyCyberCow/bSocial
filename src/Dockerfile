@@ -14,8 +14,12 @@ COPY ./src ./src
 # Installs all packages
 RUN npm install
 
-# RUn the database migrations
+# Runs the database migrations
 RUN npm run migration:run
 
-# Runs the dev npm script to build & start the server
-CMD npm run dev
+# Runs the npm script to build the server
+RUN npm run build
+
+# Runs the npm script to start the server
+CMD npm run start
+
