@@ -191,18 +191,28 @@ signed by the **RSA** keys stored in the environment.
 
 The app uses the `.dotenv` package to pick up contents of the `.env` file and
 export them to the app runtime. There is a `config` file
-(`src/config/config.ts`) that exports the app configuration populated with the
+(`./src/config/config.ts`) that exports the app configuration populated with the
 **environment variables** and _substituted_ by **default values** from
-`defaults` file (`src/config/defaults`). This is so that we avoid _**Magic
+`defaults` file (`./src/config/defaults`). This is so that we avoid _**Magic
 Strings**_.
 
 #### API Docs
 
 Api docs are served using `swagger-ui-express` package and generated using
 `swagger-jsdoc` package. The API docs are wirtten in swagger jsdoc format and
-are located mostly inside `src/routes/*` files. Additional components are
-defined in `src/entities` and `src/schemas` and some responses in
-`src/server.ts`.
+are located mostly inside `./src/routes/*` files. Additional components are
+defined in `./src/entities` and `src/schemas` and some responses in
+`./src/server.ts`.
+
+#### Postman
+
+You can find 2 postman files inside the `postman` directory:
+
+- `./postman/bSocial.postman_collection.json` - postman collection
+- `./postman/bSocial.postman_environment.json` - postman environment
+
+and you can import them in your **Postman** app(if you are using it) to test the
+API.
 
 ## Development
 
