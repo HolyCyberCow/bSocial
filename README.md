@@ -186,7 +186,7 @@ npm run migration:revert
 
 App uses:
 
-- `express` pacakge to create a server
+- `express` package to create a server
 - `typeorm` to manage database connection, entity and migration management
 - `zod` to validate incoming request data
 

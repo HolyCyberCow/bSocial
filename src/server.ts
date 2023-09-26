@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from "express";
+import express, { Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import authRouter from "./routes/auth.routes";
@@ -18,13 +18,12 @@ const swaggerUiOptions = {
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 const swaggerJsDocOptions = {
   definition: {
     openapi: "3.0.0",
     info: {
       title: "bSocial API",
-      version: "0.1.0",
+      version: process.env.npm_package_version,
       description: "bSocial API Documentation",
     },
     servers: [
