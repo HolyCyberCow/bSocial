@@ -87,6 +87,12 @@ router.post("/register", validate(createUserSchema), registerUserHandler);
  *               $ref: '#components/schemas/SimpleResponse'
  *       400:
  *         $ref: '#components/responses/ValidationErrorResponse'
+ *       409:
+ *         description: An unsuccessful user login response.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#components/schemas/SimpleMessageResponse'
  */
 router.post("/login", validate(loginUserSchema), loginUserHandler);
 

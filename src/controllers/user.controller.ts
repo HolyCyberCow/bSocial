@@ -1,4 +1,3 @@
-import AppError from "../utils/appError";
 import { NextFunction, Request, Response } from "express";
 import { FollowUserInput } from "src/schemas/user.schema";
 import {

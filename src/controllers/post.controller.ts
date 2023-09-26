@@ -13,7 +13,6 @@ import {
   getPostComments,
 } from "../services/post.service";
 import { findUserById } from "../services/user.service";
-import AppError from "../utils/appError";
 
 export const createPostHandler = async (
   req: Request<Record<string, never>, Record<string, never>, CreatePostInput>,

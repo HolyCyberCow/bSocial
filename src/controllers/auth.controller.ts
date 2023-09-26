@@ -7,7 +7,6 @@ import {
   findUserById,
   signTokens,
 } from "../services/user.service";
-import AppError from "../utils/appError";
 import { User } from "../entities/user.entity";
 import { signJwt, verifyJwt } from "../utils/jwt";
 
@@ -72,13 +71,19 @@ export const loginUserHandler = async (
   try {
     const { email, password } = req.body;
     const user = await findUserByEmail({ email: email.toLowerCase() });
-
+    console.log(user);
     if (!user) {
-      return next(new AppError(400, "Invalid email or password"));
+      return res.status(409).json({
+        status: "error",
+        message: "Invalid email or password",
+      });
     }
 
     if (!(await User.comparePasswords(password, user.password))) {
-      return next(new AppError(400, "Invlaid email or password"));
+      return res.status(409).json({
+        status: "error",
+        message: "Invalid email or password",
+      });
     }
 
     const { access_token, refresh_token } = await signTokens(user);
@@ -94,6 +99,12 @@ export const loginUserHandler = async (
       status: "success",
     });
   } catch (err: any) {
+    if ((err.code = "23505")) {
+      return res.status(409).json({
+        status: "error",
+        message: "Invalid email or password",
+      });
+    }
     next(err);
   }
 };
