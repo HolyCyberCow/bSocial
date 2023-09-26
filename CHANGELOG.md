@@ -8,40 +8,34 @@ and this project adheres to
 
 ## [Unreleased]
 
-### 2023-09-22
+## [0.1.0] - 2023-09-26
 
-#### Added
+### Added
 
-- middleware, server routes, db migrations, some test files
+- `.example.env` file, since `.env` is in gitignore, as an example
+- **docker** related files (`Dockerfile`, `docker-compose.yml`, `.dockerignore`)
+- additional project structure directories
+  - app **config** loading
+  - app **middleware** (auth & request data validation)
+  - **database entities** (**base**, **user**, **post**, **postComment**)
+  - **database migrations**
+  - **data schemas** (for validation with zod)
+  - app **controllers**
+  - app **services**
+  - app **routes**
+  - app **utils** (jwt signing and database connection management)
+- **tests** directory
+- **postman** directory with exported **collection** and **environment**
+- **api docs** in form of `jsdocs`, using `swagger-jsdoc` and served using
+  `swagger-ui-express`
 
-#### Changed
+### Changed
 
-- project structure
-- server creation and loading
-- config & typeorm config
+- README, added a lot of additional instructions and project description
+- project management scripts (package.json)
+- .env
 
-#### Removed
-
-- Redis and session storage
-
-### 2023-09-22
-
-#### Added
-
-- package-lock.json
-- docker-compose.yml for building the webserver with its postgres dependency
-- .dockerignore file
-- initial web server structure, with db entities, db connections, controllers,
-  services, validation schemas, utilities, config, expanded env vars where
-  needed
-- added redis for session management
-
-#### Changed
-
-- README; added app goals, features and requirements
-- env variables
-- directory structure
-- docker-compose: added redis
+### Removed
 
 ## [0.0.1] - 2023-09-21
 
@@ -50,7 +44,7 @@ and this project adheres to
 - initial project files (README, configs for ts, preetier, eslint, .gitignore)
 - initial project management scripts via package.json file - build, run, dev,
   lint, format
-- documented aobe scripts inside README, added simple introduction to the app
+- documented above scripts inside README, added simple introduction to the app
   and a development flow / process (GitFlow details)
 - dotenv, a simple .env file (added to gitignore, see .exmaple.env in README)
 - a simple express webserver with a "/ping" endpoint

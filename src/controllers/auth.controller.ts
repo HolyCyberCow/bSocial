@@ -71,7 +71,6 @@ export const loginUserHandler = async (
   try {
     const { email, password } = req.body;
     const user = await findUserByEmail({ email: email.toLowerCase() });
-    console.log(user);
     if (!user) {
       return res.status(409).json({
         status: "error",

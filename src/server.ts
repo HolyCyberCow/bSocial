@@ -24,7 +24,7 @@ const swaggerJsDocOptions = {
     openapi: "3.0.0",
     info: {
       title: "bSocial API",
-      version: "0.0.1",
+      version: "0.1.0",
       description: "bSocial API Documentation",
     },
     servers: [
