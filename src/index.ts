@@ -4,7 +4,6 @@ import { PostgresDataSource } from "./utils/db";
 
 PostgresDataSource.initialize()
   .then(async () => {
-    console.dir();
     app.listen(config.appPort, () => {
       console.log(
         `⚡️[server]: Server is running at http://localhost:${config.appPort}`,

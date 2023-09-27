@@ -29,7 +29,9 @@ export const createPostSchema = object({
 
 const params = {
   params: object({
-    postId: string(),
+    postId: string({
+      required_error: "Post is required",
+    }).uuid(),
   }),
 };
 

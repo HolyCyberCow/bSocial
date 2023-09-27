@@ -49,7 +49,6 @@ export const registerUserHandler = async (
       email: email.toLowerCase(),
       password,
     });
-    console.log(KafkaTopic.USER_REGISTER);
     await produce(
       KafkaTopic.USER_REGISTER,
       [{

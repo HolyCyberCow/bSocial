@@ -13,6 +13,7 @@ import {
   getPostComments,
 } from "../services/post.service";
 import { findUserById } from "../services/user.service";
+import { KafkaTopic, produce } from "../utils/kafka";
 
 export const createPostHandler = async (
   req: Request<Record<string, never>, Record<string, never>, CreatePostInput>,
@@ -23,6 +24,11 @@ export const createPostHandler = async (
     const user = await findUserById(res.locals.user.id as string);
 
     const post = await createPost(req.body, user!);
+
+    await produce(KafkaTopic.POST_PUBLISH, [{
+      key: "post",
+      value: JSON.stringify(post),
+    }]);
 
     res.status(201).json({
       status: "success",
@@ -81,6 +87,11 @@ export const createPostCommentHandler = async (
     }
 
     const postComment = await createPostComment(req.body, post, user);
+
+    await produce(KafkaTopic.COMMENT_PUBLISH, [{
+      key: "comment",
+      value: JSON.stringify(postComment),
+    }]);
 
     res.status(200).json({
       status: "success",
