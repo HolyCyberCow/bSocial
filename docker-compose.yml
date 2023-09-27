@@ -71,8 +71,6 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-    depends_on:
-      - zookeeper
     networks:
       - bsocial
 
@@ -95,16 +93,6 @@ services:
       echo 'Successfully created the following topics:'
       kafka-topics.sh --bootstrap-server kafka:${KAFKA_PORT} --list
       "
-    networks:
-        - bsocial
-
-  zookeeper:
-    image: bitnami/zookeeper:latest
-    container_name: zookeeper
-    ports:
-      - '2181:2181'
-    environment:
-      - ALLOW_ANONYMOUS_LOGIN=yes
     networks:
         - bsocial
 
@@ -131,7 +119,7 @@ services:
     links:
       - elasticsearch 
     environment:
-      - KIBANA_ELASTICSEARCH_URL=elasticsearch
+      - KIBANA_ELASTICSEARCH_URL=http://elasticsearch:9200
     networks:
       - bsocial
 

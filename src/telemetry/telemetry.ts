@@ -1,5 +1,15 @@
 import { Consumer, type EachMessagePayload, Kafka } from "kafkajs";
 import { KafkaTopic } from "./utils/kafka";
+import { Client } from "@elastic/elasticsearch";
+
+const ELASTICSEARCH_HOST: string = process.env.ELASTICSEARCH_HOST ||
+  "localhost";
+const ELASTICSEARCH_PORT: number = Number(process.env.ELASTICSEARCH_PORT) ||
+  9200;
+
+const elasticsearchClient = new Client({
+  node: `http://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}`,
+});
 
 const kafka = new Kafka({
   clientId: "telemetry",
@@ -16,6 +26,10 @@ const handleMessage = async (
   );
 
   // send data to elasticsearch here
+  await elasticsearchClient.index({
+    index: topic,
+    document: JSON.parse(message.value.toString()),
+  });
 
   await consumer.commitOffsets([{ topic, partition, offset: message.offset }]);
 };
