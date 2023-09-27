@@ -108,6 +108,33 @@ services:
     networks:
         - bsocial
 
+  elasticsearch:
+    container_name: elasticsearch
+    image: bitnami/elasticsearch:8.10.2
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - bsocial
+
+  kibana:
+    container_name: kibana
+    image: bitnami/kibana:latest
+    depends_on:
+      - elasticsearch
+    volumes:
+      - kbdata:/usr/share/kibana/data
+    ports:
+      - 5601:5601
+    links:
+      - elasticsearch 
+    environment:
+      - KIBANA_ELASTICSEARCH_URL=elasticsearch
+    networks:
+      - bsocial
+
 networks:
   bsocial:
     driver: bridge
@@ -115,3 +142,5 @@ networks:
 
 volumes:
   postgresDB: {}
+  esdata: {}
+  kbdata: {}
