@@ -35,24 +35,44 @@ docker-compose up -d
 
 which will:
 
-- create a database docker contanier called **database** and expose it to
+- create a database docker contanier called **postgres** and expose it to
   `http://localhost:5432` by default
-- create a docker container for the app called `bsocial-webserver`, expose it to
-  `http://localhost:8081` and run the Dockerfile inside `src` directory that
-  builds the app:
+- create a docker container for the app called **api**, expose it to
+  `http://localhost:8081` and run the Dockerfile inside `src` directory that:
   - copies the project files and some other required files like `package.json`
     and `.env`
   - installs the dependencies
-  - runs the development server
+  - builds the app
+- create a docker contaniers called **kafka** and expose it to
+  `http://loclahost:9092`
+- create a docker contanier called **zookeeper** and expose it to
+  `http://localhost:2181`
 - network for the app containers.
-
-After this the only thing left is to run the migrations:
-
-```bash
-npm run migration:run
-```
+- create a docker container called **init-kafka** which uses the
+  **bitnami/kafka:latest** image to create topics in the above created **kafka**
+  container
+- create a docker container called **run-migrations** which uses the app image
+  build in the above section, when the compose created the image to run the app
+  in the container **api**, to run the database migrations to the database
+  inside of the **postgres** container
 
 The API Docs should be available at: `http://localhost:8081/api/docs`
+
+_**Note**_ on the **init-kafka** and **run-migrations** containers: These will
+run for a few seconds until their tasks have been completed and then _**exit**_.
+These containers can then be safely removed. Their only purpose is to run
+migrations and create kafka topics, so we do not have to do that manually.
+
+```bash
+docker rm init-kafka run-migrations
+```
+
+If you need to, you can use docker-compose to run only one of these containers,
+ex: in case you need to "manually" apply the migrations step to your database:
+
+```bash
+docker-compose up run-migrations -d
+```
 
 ### Local development
 
@@ -247,17 +267,17 @@ early stages of the development.
 
 - `Web server`
   - [x] **SETUP** PostgreSQL inside a docker container
-  - [ ] **SETUP** Kafka inside a docker container
-    - [ ] Create Kafka topics
+  - [x] **SETUP** Kafka inside a docker container
+    - [x] Create Kafka topics
   - [x] **SETUP** Database connection
   - [x] _ENDPOINT_ - User registration
-    - [ ] Publish user registration to kafka
+    - [x] Publish user registration to kafka
   - [x] _ENDPOINT_ user login
   - [x] _ENDPOINT_ user logout
   - [x] _ENDPOINT_ create posts
-    - [ ] Publish create post message to kafka
+    - [x] Publish create post message to kafka
   - [x] _ENDPOINT_ create post comment
-    - [ ] Publish create post comment message to kafka
+    - [x] Publish create post comment message to kafka
   - [x] _ENDPOINT_ get posts, paginatied, user can only see own or followed
         users's posts (no need to return comments for posts)
   - [x] _ENDPOINT_ get all post comments
