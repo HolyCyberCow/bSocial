@@ -19,3 +19,6 @@ export const DEFAULT_POSTGRES_USER: string = "postgres";
 export const DEFAULT_POSTGRES_PASSWORD: string = "secretpass";
 export const DEFAULT_POSTGRES_HOST: string = "localhost";
 export const DEFAULT_POSTGRES_PORT: number = 5432;
+
+// Kafka
+export const DEFAULT_KAFKA_PORT: number = 9092;

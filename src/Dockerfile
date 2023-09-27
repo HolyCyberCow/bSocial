@@ -18,5 +18,5 @@ RUN npm install
 RUN npm run build 
 
 # Runs the npm script to start the server
-CMD npm run start
+# CMD npm run start
 

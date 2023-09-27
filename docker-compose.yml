@@ -7,6 +7,7 @@ services:
     build: 
       context: .
       dockerfile: ./src/Dockerfile
+    image: bsocial-api:latest
     depends_on:
       - database 
     environment:
@@ -14,15 +15,15 @@ services:
       POSTGRES_HOST: database
     ports:
       - 8081:${APP_PORT}
-    command: npm run dev
     volumes:
       - .:/usr/src/app
     networks:
       - bsocial
+    command: npm run start
 
   database:
     container_name: postgres
-    image: postgres
+    image: postgres 
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
@@ -34,9 +35,81 @@ services:
     networks:
       - bsocial
 
+  run-migrations:
+    container_name: run-migrations
+    image: bsocial-api:latest
+    depends_on:
+      - webserver
+      - database
+    environment:
+      POSTGRES_HOST: database
+    entrypoint: [ '/bin/sh', '-c']
+    command: |
+      "
+      # Running running migrations
+      echo 'Running typeorm migrations'
+      
+      npm run migration:run
+
+      echo 'Finished running migrations'
+      "
+    networks:
+        - bsocial
+
+  kafka:
+    container_name: kafka
+    image: bitnami/kafka:latest
+    restart: on-failure
+    ports:
+      - ${KAFKA_PORT}:${KAFKA_PORT}
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+    depends_on:
+      - zookeeper
+    networks:
+      - bsocial
+
+  init-kafka:
+    image: bitnami/kafka:latest
+    container_name: init-kafka
+    depends_on:
+      - kafka
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      # blocks until kafka is reachable
+      kafka-topics.sh --bootstrap-server kafka:${KAFKA_PORT} --list
+
+      echo 'Creating kafka topics'
+      kafka-topics.sh --bootstrap-server kafka:${KAFKA_PORT} --create --if-not-exists --topic user_register --replication-factor 1 --partitions 1
+      kafka-topics.sh --bootstrap-server kafka:${KAFKA_PORT} --create --if-not-exists --topic post_publish --replication-factor 1 --partitions 1
+      kafka-topics.sh --bootstrap-server kafka:${KAFKA_PORT} --create --if-not-exists --topic comment_publish --replication-factor 1 --partitions 1
+
+      echo 'Successfully created the following topics:'
+      kafka-topics.sh --bootstrap-server kafka:${KAFKA_PORT} --list
+      "
+    networks:
+        - bsocial
+
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+        - bsocial
+
 networks:
   bsocial:
     driver: bridge
+    name: bsocial
 
 volumes:
   postgresDB: {}
