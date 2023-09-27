@@ -43,9 +43,14 @@ which will:
   - copies the project files and some other required files like `package.json`
     and `.env`
   - installs the dependencies
-  - runs the migrations
   - runs the development server
 - network for the app containers.
+
+After this the only thing left is to run the migrations:
+
+```bash
+npm run migration:run
+```
 
 The API Docs should be available at: `http://localhost:8081/api/docs`
 
@@ -68,6 +73,12 @@ with the docker container since it exposes the web server to
 `http://localhost:8081`. The server in this case can be accessed via
 `http://localhost:8080` and the corresponding API docs via
 `http://localhost:8080/api/docs`.
+
+Dont forget to run the migrations:
+
+```bash
+npm run migration:run
+```
 
 ## How it works
 
