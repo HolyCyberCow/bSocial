@@ -9,6 +9,7 @@ import {
   DEFAULT_APP_PORT,
   DEFAULT_APP_REFRESH_TOKEN_EXPIRES_IN_MINUTES,
   DEFAULT_CORS_ORIGIN,
+  DEFAULT_KAFKA_HOST,
   DEFAULT_KAFKA_PORT,
   DEFAULT_NODE_ENV,
   DEFAULT_POSTGRES_DB,
@@ -24,19 +25,15 @@ export default {
   corsOrigin: process.env.CORS_ORIGIN || DEFAULT_CORS_ORIGIN,
   keys: {
     accessToken: {
-      privateKey:
-        process.env.APP_JWT_ACCESS_TOKEN_PRIVATE_KEY ||
+      privateKey: process.env.APP_JWT_ACCESS_TOKEN_PRIVATE_KEY ||
         DEFAULT_APP_JWT_ACCESS_TOKEN_PRIVATE_KEY,
-      publicKey:
-        process.env.APP_JWT_ACCESS_TOKEN_PUBLIC_KEY ||
+      publicKey: process.env.APP_JWT_ACCESS_TOKEN_PUBLIC_KEY ||
         DEFAULT_APP_JWT_ACCESS_TOKEN_PUBLIC_KEY,
     },
     refreshToken: {
-      privateKey:
-        process.env.APP_JWT_REFRESH_TOKEN_PRIVATE_KEY ||
+      privateKey: process.env.APP_JWT_REFRESH_TOKEN_PRIVATE_KEY ||
         DEFAULT_APP_JTW_REFRESH_TOKEN_PRIVATE_KEY,
-      publicKey:
-        process.env.APP_JWT_REFRESH_TOKEN_PUBLIC_KEY ||
+      publicKey: process.env.APP_JWT_REFRESH_TOKEN_PUBLIC_KEY ||
         DEFAULT_APP_JWT_REFRESH_TOKEN_PUBLIC_KEY,
     },
   },
@@ -55,5 +52,6 @@ export default {
   },
   kafka: {
     port: Number(process.env.KAFKA_PORT) || DEFAULT_KAFKA_PORT,
+    host: process.env.KAFKA_HOST || DEFAULT_KAFKA_HOST,
   },
 };

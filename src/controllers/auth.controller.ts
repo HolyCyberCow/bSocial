@@ -9,6 +9,7 @@ import {
 } from "../services/user.service";
 import { User } from "../entities/user.entity";
 import { signJwt, verifyJwt } from "../utils/jwt";
+import { KafkaTopic, produce } from "../utils/kafka";
 
 const cookieOptions: CookieOptions = {
   httpOnly: true,
@@ -41,13 +42,21 @@ export const registerUserHandler = async (
   try {
     const { first_name, last_name, username, email, password } = req.body;
 
-    await createUser({
+    const registeredUser = await createUser({
       first_name,
       last_name,
       username,
       email: email.toLowerCase(),
       password,
     });
+    console.log(KafkaTopic.USER_REGISTER);
+    await produce(
+      KafkaTopic.USER_REGISTER,
+      [{
+        key: "user",
+        value: JSON.stringify(registeredUser),
+      }],
+    );
 
     res.status(201).json({
       status: "success",

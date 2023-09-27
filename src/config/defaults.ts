@@ -22,3 +22,4 @@ export const DEFAULT_POSTGRES_PORT: number = 5432;
 
 // Kafka
 export const DEFAULT_KAFKA_PORT: number = 9092;
+export const DEFAULT_KAFKA_HOST: string = "localhost";

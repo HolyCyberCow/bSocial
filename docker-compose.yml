@@ -13,6 +13,7 @@ services:
     environment:
       NODE_ENV: dev
       POSTGRES_HOST: database
+      KAFKA_HOST: kafka
     ports:
       - 8081:${APP_PORT}
     volumes:
@@ -59,6 +60,7 @@ services:
   kafka:
     container_name: kafka
     image: bitnami/kafka:latest
+    hostname: localhost
     restart: on-failure
     ports:
       - ${KAFKA_PORT}:${KAFKA_PORT}

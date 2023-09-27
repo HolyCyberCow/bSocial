@@ -1,19 +1,24 @@
-import { Kafka } from "kafkajs";
+import { Kafka, Message as KafkaMessage } from "kafkajs";
 import config from "../config/config";
 
-type KafkaTopic = "user_register" | "post_publish" | "comment_publish";
+export enum KafkaTopic {
+  USER_REGISTER = "user_register",
+  POST_PUBLISH = "post_publish",
+  COMMENT_PUBLISH = "comment_publish",
+}
 
 const kafka = new Kafka({
   clientId: "bsocial-api",
-  brokers: ["kafka:9092", "kafka:9093"],
+  brokers: [`${config.kafka.host}:${config.kafka.port}`],
 });
 
-const producer = kafka.producer();
+export const producer = kafka.producer();
 
-export default async (topic: KafkaTopic, messages: ): Promise<void> => {
+export const produce = async (topic: KafkaTopic, messages: KafkaMessage[]) => {
   await producer.connect();
   await producer.send({
     topic,
-    messages: [],
+    messages,
   });
+  await producer.disconnect();
 };

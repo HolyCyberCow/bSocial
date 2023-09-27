@@ -9,8 +9,7 @@ const postgresConfig = {
   password: config.database.password,
   database: config.database.name,
 };
-console.log(postgresConfig);
-console.log(process.env.POSTGRES_HOST);
+
 const pathConfigs = {
   entities: [path.join(__dirname, "..", "entities/*{.js,.ts}")],
   migrations: [path.join(__dirname, "..", "migrations/*{.js,.ts}")],
