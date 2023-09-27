@@ -1,5 +1,5 @@
 import { Consumer, type EachMessagePayload, Kafka } from "kafkajs";
-import { KafkaTopic } from "./utils/kafka";
+import { KafkaTopic } from "../src/utils/kafka";
 import { Client } from "@elastic/elasticsearch";
 
 const ELASTICSEARCH_HOST: string = process.env.ELASTICSEARCH_HOST ||
@@ -35,13 +35,18 @@ const handleMessage = async (
 };
 
 const runConsumer = async (): Promise<void> => {
+  console.log(
+    `Telemetry consumer attempting to connect to Kafaka at: ${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}`,
+  );
   await consumer.connect();
+  console.log(KafkaTopic.POST_PUBLISH);
+  console.log(`Telemetry consumer connected, subscribing to topics...`);
   await consumer.subscribe({ topic: KafkaTopic.USER_REGISTER });
   await consumer.subscribe({ topic: KafkaTopic.POST_PUBLISH });
   await consumer.subscribe({ topic: KafkaTopic.COMMENT_PUBLISH });
 
   console.log(
-    `Telemetry service consumer subscribed to topics: ${KafkaTopic.USER_REGISTER}, ${KafkaTopic.POST_PUBLISH}, ${KafkaTopic.COMMENT_PUBLISH}`,
+    `Telemetry consumer subscribed to topics: ${KafkaTopic.USER_REGISTER}, ${KafkaTopic.POST_PUBLISH}, ${KafkaTopic.COMMENT_PUBLISH}`,
   );
 
   await consumer.run({
@@ -51,7 +56,7 @@ const runConsumer = async (): Promise<void> => {
 
 runConsumer()
   .then(() => {
-    console.log("Telemetry consumer is running...");
+    console.log("Telemetry consumer is running and waiting for messages...");
   })
   .catch((error) => {
     console.error("Failed to run telemetry kafka consumer.", error);

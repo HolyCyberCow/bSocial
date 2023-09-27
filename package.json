@@ -9,6 +9,7 @@
     "clean": "rm -rf dist",
     "build:clean": "npm run clean && npm run build",
     "start": "node dist/src/index.js",
+    "start:telemetry": "node dist/telemetry/index.js",
     "dev": "nodemon src/index.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"src/**/*.ts\" --fix",

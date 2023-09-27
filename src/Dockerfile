@@ -11,6 +11,8 @@ COPY ["package.json", "package-lock.json", "tsconfig.json", "tsconfig.build.json
 # Copies everything in the src directory to WORKDIR/src
 COPY ./src ./src
 
+COPY ./telemetry ./telemetry
+
 # Installs all packages
 RUN npm install
 

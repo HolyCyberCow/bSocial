@@ -25,15 +25,19 @@ export default {
   corsOrigin: process.env.CORS_ORIGIN || DEFAULT_CORS_ORIGIN,
   keys: {
     accessToken: {
-      privateKey: process.env.APP_JWT_ACCESS_TOKEN_PRIVATE_KEY ||
+      privateKey:
+        process.env.APP_JWT_ACCESS_TOKEN_PRIVATE_KEY ||
         DEFAULT_APP_JWT_ACCESS_TOKEN_PRIVATE_KEY,
-      publicKey: process.env.APP_JWT_ACCESS_TOKEN_PUBLIC_KEY ||
+      publicKey:
+        process.env.APP_JWT_ACCESS_TOKEN_PUBLIC_KEY ||
         DEFAULT_APP_JWT_ACCESS_TOKEN_PUBLIC_KEY,
     },
     refreshToken: {
-      privateKey: process.env.APP_JWT_REFRESH_TOKEN_PRIVATE_KEY ||
+      privateKey:
+        process.env.APP_JWT_REFRESH_TOKEN_PRIVATE_KEY ||
         DEFAULT_APP_JTW_REFRESH_TOKEN_PRIVATE_KEY,
-      publicKey: process.env.APP_JWT_REFRESH_TOKEN_PUBLIC_KEY ||
+      publicKey:
+        process.env.APP_JWT_REFRESH_TOKEN_PUBLIC_KEY ||
         DEFAULT_APP_JWT_REFRESH_TOKEN_PUBLIC_KEY,
     },
   },

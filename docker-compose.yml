@@ -22,6 +22,23 @@ services:
       - bsocial
     command: npm run start
 
+  telemetry:
+    container_name: telemetry
+    image: bsocial-api:latest
+    depends_on:
+      - kafka
+    environment:
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ELASTICSEARCH_PORT=9200
+    networks:
+      - bsocial
+    entrypoint: [ '/bin/sh', '-c']
+    command: |
+      "
+      # Running telemetry service
+      npm run start:telemetry
+      "
+
   database:
     container_name: postgres
     image: postgres 

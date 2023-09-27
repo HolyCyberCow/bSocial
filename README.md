@@ -45,8 +45,6 @@ which will:
   - builds the app
 - create a docker contaniers called **kafka** and expose it to
   `http://loclahost:9092`
-- create a docker contanier called **zookeeper** and expose it to
-  `http://localhost:2181`
 - network for the app containers.
 - create a docker container called **init-kafka** which uses the
   **bitnami/kafka:latest** image to create topics in the above created **kafka**
@@ -55,6 +53,10 @@ which will:
   build in the above section, when the compose created the image to run the app
   in the container **api**, to run the database migrations to the database
   inside of the **postgres** container
+- create a docker container called **elasticsearch** and expose it to
+  `http://localhost:9200`
+- create a docker container called **kibana** and expose it to
+  `http://localhost/5601`
 
 The API Docs should be available at: `http://localhost:8081/api/docs`
 

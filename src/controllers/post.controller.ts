@@ -25,10 +25,12 @@ export const createPostHandler = async (
 
     const post = await createPost(req.body, user!);
 
-    await produce(KafkaTopic.POST_PUBLISH, [{
-      key: "post",
-      value: JSON.stringify(post),
-    }]);
+    await produce(KafkaTopic.POST_PUBLISH, [
+      {
+        key: "post",
+        value: JSON.stringify(post),
+      },
+    ]);
 
     res.status(201).json({
       status: "success",
@@ -88,10 +90,12 @@ export const createPostCommentHandler = async (
 
     const postComment = await createPostComment(req.body, post, user);
 
-    await produce(KafkaTopic.COMMENT_PUBLISH, [{
-      key: "comment",
-      value: JSON.stringify(postComment),
-    }]);
+    await produce(KafkaTopic.COMMENT_PUBLISH, [
+      {
+        key: "comment",
+        value: JSON.stringify(postComment),
+      },
+    ]);
 
     res.status(200).json({
       status: "success",

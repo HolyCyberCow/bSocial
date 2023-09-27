@@ -49,13 +49,12 @@ export const registerUserHandler = async (
       email: email.toLowerCase(),
       password,
     });
-    await produce(
-      KafkaTopic.USER_REGISTER,
-      [{
+    await produce(KafkaTopic.USER_REGISTER, [
+      {
         key: "user",
         value: JSON.stringify(registeredUser),
-      }],
-    );
+      },
+    ]);
 
     res.status(201).json({
       status: "success",
