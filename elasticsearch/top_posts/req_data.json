@@ -1,0 +1,9 @@
+{
+  "query": {
+    "range": {
+      "created_at": {
+        "from": "now-10d"
+      }
+    }
+  }
+}

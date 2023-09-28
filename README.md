@@ -304,17 +304,22 @@ API.
 
 There is a directory `elasticsearch` that contains some queries to the
 elasticsearch written in plain **bash**, using **curl**. These can be ran by
-making them executable:
+making them executable, ex:
 
 ```bash
-chmod +x elasticsearch/queries/registered_users_per_day.sh
+chmod +x elasticsearch/registered_users_per_day/req.sh
 ```
 
 and then running:
 
 ```bash
-./elasticsearch/queries/registered_users_per_day.sh
+./elasticsearch/registered_users_per_day/req.sh
 ```
+
+The `registered_users_per_day` query returns days and amount of users registered
+in those days. The results can be seen in the response's **aggregations** key.
+It should contain **registered_users_per_day** key with **buckets** list, which
+are the results we want.
 
 ## Development
 
@@ -355,7 +360,7 @@ early stages of the development.
   - [x] **SETUP** Elasticsearch inside a docker container
   - [x] Consume all messages sent to kafka and write them to Elasticsearch
   - [ ] Write elasticsearch query (store in a file)
-    - [ ] count of registered users per day
+    - [x] count of registered users per day
     - [ ] top 10 posts (by number of comments) per day in the last 10 days
     - [ ] all-time top post from a given user (highest number of comments) and
           all time worst post (lowest number of comments). If there are

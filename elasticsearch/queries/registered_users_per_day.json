@@ -1,1 +1,0 @@
-"{\"aggs\":{\"hist\":{\"date_histogram\":{\"field\":\"created_at\",\"fixed_interval\":\"1d\"},\"aggs\":{\"count\":{\"value_count\":{\"field\":\"created_at\"}}}}}"
