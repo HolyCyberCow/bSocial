@@ -22,11 +22,11 @@ Users can register, login, follow other users, create posts and comments.
   - [x] User registration
   - [x] Post creation
   - [x] Comment creation
-- [ ] `Notifications microservice`]
+- [ ] `Notifications microservice`
   - [ ] subscribes to the comment creation topic in `Kafka`
   - [ ] notifies users when their posts have been commented on
-- [x] `Elasticsearch`]
-- [x] `Telemetry microservice`]
+- [x] `Elasticsearch`
+- [x] `Telemetry microservice`
   - [x] depends on the `Elasticsearch`
   - [x] consumes all messages sent to Kafka and writes them to `Elasticsearch`
 
