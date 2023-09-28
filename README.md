@@ -302,7 +302,7 @@ API.
 
 #### Elastic Queries
 
-THere is a directory `elasticsearch` that contains some queries to the
+There is a directory `elasticsearch` that contains some queries to the
 elasticsearch written in plain **bash**, using **curl**. These can be ran by
 making them executable:
 
