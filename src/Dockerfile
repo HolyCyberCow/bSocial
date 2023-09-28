@@ -16,6 +16,9 @@ COPY ./telemetry ./telemetry
 # Installs all packages
 RUN npm install
 
+# Delete dist (just in case)
+RUN npm run clean
+
 # Runs the build
 RUN npm run build 
 

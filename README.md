@@ -10,6 +10,26 @@ Users can register, login, follow other users, create posts and comments.
 - Docker
 - [Optional] Postman
 
+## How it works
+
+- [x] The main `web server`
+  - [x] manages user register and auth
+  - [x] post and comment creation
+  - [x] user follow
+- [x] `PostgreSQL`
+  - [x] serving as the main web server's database
+- [x] `Kafka`, which handles events on:
+  - [x] User registration
+  - [x] Post creation
+  - [x] Comment creation
+- [ ] `Notifications microservice`]
+  - [ ] subscribes to the comment creation topic in `Kafka`
+  - [ ] notifies users when their posts have been commented on
+- [x] `Elasticsearch`]
+- [x] `Telemetry microservice`]
+  - [x] depends on the `Elasticsearch`
+  - [x] consumes all messages sent to Kafka and writes them to `Elasticsearch`
+
 ## How to run
 
 ### ENV
@@ -57,6 +77,9 @@ which will:
   `http://localhost:9200`
 - create a docker container called **kibana** and expose it to
   `http://localhost/5601`
+- create a docker container called **telemetry** and run it. This acts as a
+  microservice that intercepts all messages sent to kafka and forwards them to
+  **elasticsearch**.
 
 The API Docs should be available at: `http://localhost:8081/api/docs`
 
@@ -75,6 +98,39 @@ ex: in case you need to "manually" apply the migrations step to your database:
 ```bash
 docker-compose up run-migrations -d
 ```
+
+### Check how it works
+
+You can use the provided **postman** _collection_ and _environment_ to import
+them into your postman app and send a _register request_ to the **api**
+container. This will publish the `user_register` topic to kafka and the
+telemetry service should pick that up and forward it to **elasticsearch**. You
+can see this by watching for **telemetry** logs with:
+
+```bash
+docker logs telemetry -f
+```
+
+And to check that, you can access **kibana** at `http://localhost:5601`. You
+will need to create a view for the data to see it.
+
+#### Docker Issues
+
+The **telemetry** image failes becuase it takes a bit of time for **init-kafka**
+to create the topics in the **kafka** container. To avert this (for now),
+restart the **telemetry** container a few moments after everything finished:
+
+```bash
+docker restart telemetry
+```
+
+Check the logs to make sure the telemetry works:
+
+```bash
+docker logs telemetry
+```
+
+See [Issues](#issues)
 
 ### Local development
 
@@ -102,27 +158,16 @@ Dont forget to run the migrations:
 npm run migration:run
 ```
 
-## How it works
+#### Local development issues
 
-There are several applications / components:
+When running locally using:
 
-- The main `web server`
-  - manages user register and auth
-  - post and comment creation
-  - user follow
-- `PostgreSQL`
-  - serving as the main web server's database
-- `Kafka`, which handles events on:
-  - User registration
-  - Post creation
-  - Comment creation
-- `Notifications microservice`
-  - subscribes to the comment creation topic in `Kafka`
-  - notifies users when their posts have been commented on
-- `Elasticsearch`
-- `Telemetry microservice`
-  - depends on the `Elasticsearch`
-  - consumes all messages sent to Kafka and writes them to `Elasticsearch`
+```bash
+npm run dev
+```
+
+The locally ran **api** cannot access **kafka** container forwarded to port
+**localhost:9092**. See [Issues](#issues)
 
 ### Commands
 
@@ -291,11 +336,18 @@ early stages of the development.
     - [ ] implement notifications via WebSockets (requires frontend)
     - [ ] _ENDPOINT_ get all unsent notifications
 - `Telemetry microservice`
-  - [ ] **SETUP** Elasticsearch inside a docker container
-  - [ ] Consume all messages sent to kafka and write them to Elasticsearch
+  - [x] **SETUP** Elasticsearch inside a docker container
+  - [x] Consume all messages sent to kafka and write them to Elasticsearch
   - [ ] Write elasticsearch query (store in a file)
     - [ ] count of registered users per day
     - [ ] top 10 posts (by number of comments) per day in the last 10 days
     - [ ] all-time top post from a given user (highest number of comments) and
           all time worst post (lowest number of comments). If there are
           duplicates it does not matter which one is returned
+
+### Issues
+
+- [ ] **telemetry** container does not wait for **kafka-init** to create brokers
+      in **kafka**
+- [ ] running in dev mode the server cannot access **kafka** forwarded to
+      **localhost:9092**

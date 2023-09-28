@@ -6,6 +6,8 @@ const ELASTICSEARCH_HOST: string = process.env.ELASTICSEARCH_HOST ||
   "localhost";
 const ELASTICSEARCH_PORT: number = Number(process.env.ELASTICSEARCH_PORT) ||
   9200;
+const KAFKA_HOST: string = process.env.KAFKA_HOST || "localhost";
+const KAFKA_PORT: number = Number(process.env.KAFKA_PORT) || 9092;
 
 const elasticsearchClient = new Client({
   node: `http://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}`,
@@ -13,7 +15,7 @@ const elasticsearchClient = new Client({
 
 const kafka = new Kafka({
   clientId: "telemetry",
-  brokers: [`localhost:9092`],
+  brokers: [`${KAFKA_HOST}:${KAFKA_PORT}`],
 });
 
 const consumer: Consumer = kafka.consumer({ groupId: "telemetry-group" });
@@ -25,11 +27,12 @@ const handleMessage = async (
     `Recieved message from topic '${topic}': ${message.value.toString()}`,
   );
 
-  // send data to elasticsearch here
+  console.log(`Forwarding topic '${topic}' message to elasticsearch...`);
   await elasticsearchClient.index({
     index: topic,
     document: JSON.parse(message.value.toString()),
   });
+  console.log(`Topic '${topic}' successfully sent to elasticsearch`);
 
   await consumer.commitOffsets([{ topic, partition, offset: message.offset }]);
 };
@@ -39,7 +42,6 @@ const runConsumer = async (): Promise<void> => {
     `Telemetry consumer attempting to connect to Kafaka at: ${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}`,
   );
   await consumer.connect();
-  console.log(KafkaTopic.POST_PUBLISH);
   console.log(`Telemetry consumer connected, subscribing to topics...`);
   await consumer.subscribe({ topic: KafkaTopic.USER_REGISTER });
   await consumer.subscribe({ topic: KafkaTopic.POST_PUBLISH });
