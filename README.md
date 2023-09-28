@@ -300,6 +300,22 @@ You can find 2 postman files inside the `postman` directory:
 and you can import them in your **Postman** app(if you are using it) to test the
 API.
 
+#### Elastic Queries
+
+THere is a directory `elasticsearch` that contains some queries to the
+elasticsearch written in plain **bash**, using **curl**. These can be ran by
+making them executable:
+
+```bash
+chmod +x elasticsearch/queries/registered_users_per_day.sh
+```
+
+and then running:
+
+```bash
+./elasticsearch/queries/registered_users_per_day.sh
+```
+
 ## Development
 
 This project uses a simple version of `GitFlow`. The first, initial commit
